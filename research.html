@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Lucky Rathee</title>
+  <meta name="description" content="Research by Lucky Rathee on 6G ultra-low-latency communication for remote medical services." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e5323b' stroke-width='15'%3E%3Cline x1='50' y1='4' x2='50' y2='96'/%3E%3Cline x1='10.2' y1='27' x2='89.8' y2='73'/%3E%3Cline x1='10.2' y1='73' x2='89.8' y2='27'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="research">
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head split">
+      <div class="container">
+        <h1 class="reveal">Research</h1>
+        <p class="lead reveal d1">Where networks meet medicine — my research on ultra-low-latency communication.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div id="featured"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+  <script>
+    const feat = RESEARCH[0];
+    const meta = (r) => `<div class="post-meta"><span>${r.venue}</span><span class="sep"></span><span>${r.status} · ${r.date}</span></div>`;
+
+    document.getElementById("featured").innerHTML = `
+      <article class="feature">
+        <a class="work-visual reveal" href="paper.html?id=${feat.id}">${researchArt(feat)}</a>
+        <div>
+          <div class="reveal">${meta(feat)}</div>
+          <h2 class="reveal d1">${feat.title}</h2>
+          <p class="reveal d2">${feat.summary}</p>
+          <a class="link-arrow reveal d3" href="paper.html?id=${feat.id}">Read more ${ICONS.arrow}</a>
+        </div>
+      </article>`;
+
+  </script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

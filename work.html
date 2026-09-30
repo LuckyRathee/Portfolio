@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Lucky Rathee</title>
+  <meta name="description" content="Agentic AI, automation and full-stack projects by Lucky Rathee." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e5323b' stroke-width='15'%3E%3Cline x1='50' y1='4' x2='50' y2='96'/%3E%3Cline x1='10.2' y1='27' x2='89.8' y2='73'/%3E%3Cline x1='10.2' y1='73' x2='89.8' y2='27'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="work">
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head split">
+      <div class="container">
+        <h1 class="reveal">Selected Work</h1>
+        <p class="lead reveal d1">Agentic systems, automation infrastructure and realtime products — built end to end.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="work-grid" id="work"></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2 class="reveal">Got a project<span class="red">?</span></h2>
+        <p class="reveal d1">Tell me what you want automated and I’ll tell you how an agent can do it.</p>
+        <a class="btn reveal d2" href="contact.html">Get in touch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+  <script>
+    document.getElementById("work").innerHTML = PROJECTS.map((p, i) => workCard(p, i % 2)).join("");
+  </script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

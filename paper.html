@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Lucky Rathee</title>
+  <meta name="description" content="Architectural Design of 6G-Based Ultra-Low-Latency Communication for Remote Medical Services — accepted at STAI 2026." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e5323b' stroke-width='15'%3E%3Cline x1='50' y1='4' x2='50' y2='96'/%3E%3Cline x1='10.2' y1='27' x2='89.8' y2='73'/%3E%3Cline x1='10.2' y1='73' x2='89.8' y2='27'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="research">
+  <header id="site-header"></header>
+
+  <main id="paper"></main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get("id");
+    const r = RESEARCH.find((x) => x.id === id) || RESEARCH[0];
+    document.title = `${r.venue} — ${SITE.name}`;
+
+    const head = (eyebrow, title) =>
+      `<div class="section-head"><div><p class="eyebrow reveal">${eyebrow}</p><h2 class="h2 reveal d1">${title}</h2></div></div>`;
+
+    const pipeline = r.pipeline
+      ? `<section class="section paper-section">
+          <div class="container">
+            ${head("Architecture", "How data moves")}
+            <div class="flow reveal">
+              <div class="flow-line"><span class="packet"></span></div>
+              ${r.pipeline.map(([t, d, kind], i) => `
+                <div class="flow-node${kind ? " " + kind : ""}" style="--i:${i}">
+                  <span class="flow-num">${String(i + 1).padStart(2, "0")}</span>
+                  <h3>${t}</h3><p>${d}</p>
+                </div>`).join("")}
+            </div>
+          </div>
+        </section>`
+      : "";
+
+    const maxLatency = r.latency ? Math.max(...r.latency.map(([, v]) => v)) : 1;
+    const results = r.metrics
+      ? `<section class="section paper-section">
+          <div class="container">
+            ${head("Results", "In simulation")}
+            <div class="metric-grid">
+              ${r.metrics.map(([v, unit, label], i) => `
+                <div class="metric reveal d${i % 3}">
+                  <div class="metric-num"><b data-count="${v}">${v}</b><span>${unit}</span></div>
+                  <p>${label}</p>
+                </div>`).join("")}
+            </div>
+            ${r.latency ? `
+            <figure class="latency-chart reveal">
+              <figcaption>
+                <h3>Average end-to-end latency</h3>
+                <p>Milliseconds, lower is better</p>
+              </figcaption>
+              <div class="bars" role="img" aria-label="Average end-to-end latency: ${r.latency.map(([n, v]) => `${n} ${v} ms`).join(", ")}">
+                ${r.latency.map(([name, v], i) => `
+                  <div class="bar-row${i === 0 ? " best" : ""}" data-tip="${name}: ${v.toFixed(2)} ms${i ? ` · ${(v / r.latency[0][1]).toFixed(1)}× slower than 6G` : " · fastest"}">
+                    <span class="bar-label">${name}</span>
+                    <span class="bar-track"><span class="bar" style="--w:${(v / maxLatency) * 100}%"></span></span>
+                    <span class="bar-value">${v.toFixed(2)} ms</span>
+                  </div>`).join("")}
+                <div class="bar-tip" aria-hidden="true"></div>
+              </div>
+              <details class="table-view">
+                <summary>View as table</summary>
+                <table><thead><tr><th>System</th><th>Avg latency (ms)</th></tr></thead>
+                  <tbody>${r.latency.map(([n, v]) => `<tr><td>${n}</td><td>${v.toFixed(2)}</td></tr>`).join("")}</tbody></table>
+              </details>
+            </figure>` : ""}
+          </div>
+        </section>`
+      : "";
+
+    const equations = r.equations
+      ? `<section class="section paper-section">
+          <div class="container">
+            ${head("Models", "The maths underneath")}
+            <div class="eq-grid">
+              ${r.equations.map(([n, e], i) => `<div class="eq reveal d${i % 4}"><span>${String(i + 1).padStart(2, "0")} · ${n}</span><code>${e}</code></div>`).join("")}
+            </div>
+          </div>
+        </section>`
+      : "";
+
+    document.getElementById("paper").innerHTML = `
+      <section class="article-head">
+        <div class="container">
+          <div class="post-meta reveal"><span>${r.venue}</span><span class="sep"></span><span>${r.status} · ${r.date}</span></div>
+          <h1 class="reveal d1">${r.title}</h1>
+          <p class="reveal d2">${r.summary}</p>
+          ${r.keywords ? `<div class="tags paper-tags reveal d3">${r.keywords.map((k) => `<span class="tag">${k}</span>`).join("")}</div>` : ""}
+        </div>
+      </section>
+
+      ${r.abstract ? `
+      <section class="section paper-section" style="padding-top:0">
+        <div class="container two-col" style="align-items:start">
+          <div><p class="eyebrow reveal">Abstract</p><h2 class="h2 reveal d1">Why 5G isn’t enough</h2></div>
+          <div class="abstract">${r.abstract.map((t, i) => `<p class="reveal d${i}">${t}</p>`).join("")}</div>
+        </div>
+      </section>` : ""}
+
+      ${pipeline}
+      ${results}
+      ${equations}
+
+      <article class="prose">
+        <p class="eyebrow reveal">Findings &amp; limits</p>
+        ${r.body.map((t) => `<p class="reveal">${t}</p>`).join("")}
+        <blockquote class="reveal">${r.status} at ${r.venue}.</blockquote>
+        <a class="link-arrow reveal" href="research.html">Back to research ${ICONS.arrow}</a>
+      </article>`;
+
+    // Hover tooltip for the latency bars
+    const bars = document.querySelector(".bars");
+    if (bars) {
+      const tip = bars.querySelector(".bar-tip");
+      bars.querySelectorAll(".bar-row").forEach((row) => {
+        row.addEventListener("mousemove", (e) => {
+          const b = bars.getBoundingClientRect();
+          tip.textContent = row.dataset.tip;
+          tip.style.transform = `translate(${e.clientX - b.left + 16}px, ${e.clientY - b.top - 44}px)`;
+          tip.classList.add("on");
+        });
+        row.addEventListener("mouseleave", () => tip.classList.remove("on"));
+      });
+    }
+  </script>
+  <script src="js/motion.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

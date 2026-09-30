@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Lucky Rathee</title>
+  <meta name="description" content="About Lucky Rathee, AI & Automation Engineer based in Haryana, India." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e5323b' stroke-width='15'%3E%3Cline x1='50' y1='4' x2='50' y2='96'/%3E%3Cline x1='10.2' y1='27' x2='89.8' y2='73'/%3E%3Cline x1='10.2' y1='73' x2='89.8' y2='27'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="about">
+  <header id="site-header"></header>
+
+  <main>
+    <section class="about-hero">
+      <div class="about-media"><img src="assets/lucky-bw.jpg" alt="Portrait of Lucky Rathee" /></div>
+      <div class="container">
+        <div class="about-copy">
+          <h1 class="reveal">I’m Lucky Rathee</h1>
+          <h2 class="reveal d1">an AI Engineer based in Haryana, India</h2>
+          <p class="reveal d2">I’m an AI &amp; Automation Engineer specializing in agentic AI workflows, RAG architectures and resilient data pipelines. I orchestrate multi-agent LLM systems, headless browser automation and high-throughput B2B operations.</p>
+          <a class="btn reveal d3" href="contact.html">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container two-col">
+        <div class="photo-frame reveal"><img src="assets/lucky-mountains.jpg" alt="Lucky Rathee in the Himalayas" loading="lazy" /></div>
+        <div>
+          <p class="eyebrow reveal">My story</p>
+          <h2 class="h2 reveal d1">Engineering agents that do real work</h2>
+          <p class="lead reveal d2" style="margin-top:32px">I studied Computer Science (B.E.) at Chandigarh University and have been shipping production AI — from a 27-skill outreach agent to a voice-operated agentic OS.</p>
+          <p class="lead reveal d3" style="margin-top:20px">Alongside engineering I do research: my paper on 6G ultra-low-latency communication for remote medical services was accepted at STAI 2026.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow reveal">Toolkit</p>
+            <h2 class="h2 reveal d1">Technical skills</h2>
+          </div>
+        </div>
+        <div class="skills" id="skills"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <p class="eyebrow reveal">Education</p>
+        <div class="edu reveal d1">
+          <div>
+            <h3>Chandigarh University</h3>
+            <p class="muted" style="font-size:20px;margin-top:8px">B.E. Computer Science</p>
+          </div>
+          <p class="red" style="font-size:22px;font-weight:700">Class of July 2026</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2 class="reveal">Let’s talk<span class="red">*</span></h2>
+        <p class="reveal d1">Open to AI engineering roles, freelance automation work and research collaborations.</p>
+        <a class="btn reveal d2" href="contact.html">Get in touch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+  <script>
+    const SKILLS = {
+      "AI & LLM Systems": ["Agentic AI", "AI Orchestration", "MCP", "RAG", "LangChain", "Hermes", "Claude", "Gemini", "Groq", "pgvector"],
+      "Automation & Scraping": ["Playwright", "Chromium", "n8n", "Make.com", "Apify", "Web Scraping"],
+      "Languages": ["Python", "TypeScript", "JavaScript", "SQL", "C++"],
+      "Backend & Web": ["FastAPI", "Node.js", "Next.js", "React", "Supabase", "Tailwind", "MongoDB"],
+      "Cloud & DevOps": ["Docker", "Docker Compose", "AWS EC2", "Google Cloud Run", "Caddy", "APIs"],
+    };
+    document.getElementById("skills").innerHTML = Object.entries(SKILLS)
+      .map(([group, items], i) => `<div class="skill-group reveal d${i % 3}"><h3>${group}</h3><div class="tags">${items.map((s) => `<span class="tag">${s}</span>`).join("")}</div></div>`)
+      .join("");
+  </script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

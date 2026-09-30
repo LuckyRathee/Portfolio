@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project — Lucky Rathee</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e5323b' stroke-width='15'%3E%3Cline x1='50' y1='4' x2='50' y2='96'/%3E%3Cline x1='10.2' y1='27' x2='89.8' y2='73'/%3E%3Cline x1='10.2' y1='73' x2='89.8' y2='27'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="work">
+  <header id="site-header"></header>
+
+  <main>
+    <div class="container" id="project"></div>
+
+    <section class="section" style="padding-top:40px">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow reveal">More work</p>
+            <h2 class="h2 reveal d1">Other projects</h2>
+          </div>
+          <a class="link-arrow reveal d2" href="work.html">View all projects <span></span></a>
+        </div>
+        <div class="work-grid even" id="more"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get("id");
+    const p = PROJECTS.find((x) => x.id === id) || PROJECTS[0];
+    document.title = `${p.short} — ${SITE.name}`;
+
+    const tabs = [
+      ...(p.images || []).map((im) => ({ label: im[0], img: im })),
+      ...p.highlights.map((h, i) => ({ label: `0${i + 1}`, lines: [["c", `// highlight ${i + 1}`], ...wrap(h)] })),
+      { label: "Code", lines: p.code },
+      ...(p.tree ? [{ label: "Files", lines: p.tree, tree: true }] : []),
+    ];
+    const art = (t) => (t.img ? renderShot(t.img) : renderArt(t.lines, { tree: t.tree, noStar: t.tree }));
+    const first = p.images ? 0 : tabs.length - 1;
+    function wrap(text, width = 34) {
+      const out = []; let line = "";
+      text.split(" ").forEach((w) => {
+        if ((line + " " + w).trim().length > width) { out.push(["", line.trim()]); line = w; }
+        else line += " " + w;
+      });
+      if (line.trim()) out.push(["", line.trim()]);
+      return out;
+    }
+
+    document.getElementById("project").innerHTML = `
+      <section class="product">
+        <div>
+          <h1 class="reveal">${p.title}</h1>
+          <p class="desc reveal d1">${p.summary}</p>
+          <div class="product-price reveal d2"><span>${p.metric}</span><s>${p.replaces}</s></div>
+          <div class="product-fields reveal d3">
+            <div><div class="field-label">Year</div><div class="field-value">${p.year}</div></div>
+            <div><div class="field-label">Category</div><div class="field-value">${p.category}</div></div>
+            ${(p.facts || []).map(([k, v]) => `<div><div class="field-label">${k}</div><div class="field-value">${v}</div></div>`).join("")}
+          </div>
+          <div class="product-actions reveal d4">
+            ${p.demo ? `<a class="btn" href="${p.demo}" target="_blank" rel="noopener">View live site ↗</a>` : ""}
+            ${p.repo ? `<a class="btn btn-outline" href="${p.repo}" target="_blank" rel="noopener">View on GitHub</a>` : ""}
+            ${!p.demo && !p.repo ? `<a class="btn btn-outline" href="contact.html">Request a walkthrough</a>` : ""}
+          </div>
+          ${p.access ? `<p class="access-note reveal d4"><i></i>${p.access}</p>` : ""}
+          ${p.team ? `<p class="access-note reveal d4"><i></i>${p.team}</p>` : ""}
+        </div>
+        <div class="reveal d2">
+          <div class="work-visual" id="stage">${art(tabs[first])}</div>
+          <div class="thumbs">${tabs.map((t, i) => `<button data-i="${i}" class="${i === first ? "on" : ""}">${t.label}</button>`).join("")}</div>
+        </div>
+      </section>
+      <section class="two-col" style="align-items:start;padding-bottom:100px;border-bottom:1px solid var(--line)">
+        <div>
+          <p class="eyebrow reveal">What I built</p>
+          <ul class="highlights">${p.highlights.map((h) => `<li class="reveal">${h}</li>`).join("")}</ul>
+        </div>
+        <div>
+          <p class="eyebrow reveal">Stack</p>
+          <div class="tags reveal d1">${p.stack.map((s) => `<span class="tag">${s}</span>`).join("")}</div>
+        </div>
+      </section>`;
+
+    document.querySelectorAll(".thumbs button").forEach((b) =>
+      b.addEventListener("click", () => {
+        document.querySelectorAll(".thumbs button").forEach((x) => x.classList.remove("on"));
+        b.classList.add("on");
+        document.getElementById("stage").innerHTML = art(tabs[+b.dataset.i]);
+      })
+    );
+
+    document.querySelector(".link-arrow span").outerHTML = ICONS.arrow;
+    document.getElementById("more").innerHTML = PROJECTS.filter((x) => x.id !== p.id)
+      .slice(0, 2).map((x, i) => workCard(x, i)).join("");
+  </script>
+  <script src="js/chat.js"></script>
+</body>
+</html>
